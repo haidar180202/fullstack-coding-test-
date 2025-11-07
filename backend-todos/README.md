@@ -1,90 +1,72 @@
 # Backend To-Do List API
 
-Proyek ini adalah sebuah REST API sederhana untuk mengelola daftar tugas (To-Do list). API ini dibangun sebagai bagian dari *Full Stack Developer Coding Test* dan mencakup fungsionalitas dasar CRUD (Create, Read, Update, Delete) untuk To-Do, serta autentikasi pengguna menggunakan JWT (JSON Web Tokens).
+This project is a simple REST API for managing a To-Do list, created to fulfill **Question 2** of the *Full Stack Developer Coding Test*. The API provides basic CRUD (Create, Read, Update, Delete) functionality for To-Dos using in-memory storage.
 
-## Teknologi yang Digunakan
+## Tech Stack
 
-- **Node.js**: Lingkungan eksekusi JavaScript di sisi server.
-- **Express.js**: Kerangka kerja (framework) web yang minimalis dan fleksibel untuk Node.js.
-- **JSON Web Tokens (JWT)**: Standar terbuka untuk membuat token akses yang aman antara dua pihak.
-- **Swagger (OpenAPI)**: Digunakan untuk merancang, membangun, mendokumentasikan, dan mengonsumsi RESTful API.
-  - `swagger-ui-express`: Untuk menampilkan dokumentasi Swagger UI.
-  - `swagger-jsdoc`: Untuk menghasilkan spesifikasi OpenAPI dari anotasi JSDoc.
-- **Nodemon**: Alat yang membantu pengembangan aplikasi berbasis Node.js dengan me-restart server secara otomatis saat ada perubahan file.
-- **pnpm**: Manajer paket yang cepat dan efisien dalam penggunaan ruang disk.
+- **Node.js**: A JavaScript runtime built on Chrome's V8 JavaScript engine.
+- **Express.js**: A minimal and flexible Node.js web application framework.
+- **Swagger (OpenAPI)**: Used to design, build, document, and consume RESTful APIs.
+  - `swagger-ui-express`: Serves auto-generated Swagger UI documentation.
+  - `swagger-jsdoc`: Generates OpenAPI specifications from JSDoc comments.
+- **Nodemon**: A tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+- **pnpm**: A fast, disk space-efficient package manager.
 
-## Fitur
+## Features
 
-- **Manajemen To-Do**:
-  - Membuat tugas baru.
-  - Mengambil semua tugas.
-  - Memperbarui status tugas (selesai/belum selesai).
-  - Menghapus tugas.
-- **Autentikasi Pengguna**:
-  - Registrasi pengguna baru.
-  - Login pengguna untuk mendapatkan token JWT.
-  - Endpoint profil yang dilindungi untuk melihat detail pengguna yang sedang login.
-- **Dokumentasi API**:
-  - Dokumentasi API interaktif yang tersedia di endpoint `/api-docs`.
-  - Dihasilkan secara otomatis dari komentar JSDoc di dalam kode.
+- **To-Do Management**:
+  - Create a new task.
+  - Retrieve all tasks.
+  - Update a task's status or content.
+  - Delete a task.
+- **API Documentation**:
+  - Interactive API documentation available at the `/api-docs` endpoint.
 
-## Struktur Proyek
-
-Proyek ini mengikuti struktur yang terorganisir untuk memisahkan setiap concern:
+## Project Structure
 
 ```
 backend-todos/
-├── controllers/       # Logika bisnis aplikasi
-│   ├── authController.js
+├── controllers/
 │   └── todoController.js
-├── middleware/        # Middleware untuk autentikasi
-│   └── authMiddleware.js
-├── routes/            # Definisi rute API
-│   ├── authRoutes.js
+├── routes/
 │   └── todoRoutes.js
 ├── .gitignore
-├── index.js           # File utama server
+├── index.js
 ├── package.json
 ├── pnpm-lock.yaml
-└── swagger.js         # Konfigurasi Swagger
+└── swagger.js
 ```
 
-## Instalasi
+## Installation
 
-1.  **Clone repository** (jika belum):
+1.  **Clone the repository** (if you haven't already):
     ```bash
-    git clone <url-repository>
+    git clone <repository-url>
     cd backend-todos
     ```
 
-2.  **Install dependensi** menggunakan `pnpm`:
+2.  **Install dependencies** using `pnpm`:
     ```bash
     pnpm install
     ```
 
-## Menjalankan Aplikasi
+## Running the Application
 
-Untuk menjalankan server pengembangan, gunakan perintah berikut:
+To start the development server, run the following command:
 
 ```bash
 pnpm start
 ```
 
-Server akan berjalan di `http://localhost:3000` dan akan otomatis me-restart setiap kali ada perubahan pada file berkat `nodemon`.
+The server will run at `http://localhost:3000`.
 
-## Endpoint API
+## API Endpoints
 
-Dokumentasi lengkap dan interaktif tersedia di **[http://localhost:3000/api-docs](http://localhost:3000/api-docs)** setelah server dijalankan.
-
-### Autentikasi (`/auth`)
-
-- `POST /auth/register`: Mendaftarkan pengguna baru.
-- `POST /auth/login`: Login untuk mendapatkan token JWT.
-- `GET /auth/profile`: Mendapatkan detail profil pengguna (membutuhkan token JWT).
+Full and interactive documentation is available at **[http://localhost:3000/api-docs](http://localhost:3000/api-docs)** after running the server.
 
 ### To-Do (`/todos`)
 
-- `POST /todos`: Membuat To-Do baru (membutuhkan token JWT).
-- `GET /todos`: Mendapatkan semua To-Do (membutuhkan token JWT).
-- `PATCH /todos/:id`: Memperbarui status To-Do (membutuhkan token JWT).
-- `DELETE /todos/:id`: Menghapus To-Do (membutuhkan token JWT).
+- `POST /todos`: Create a new To-Do.
+- `GET /todos`: Get all To-Dos.
+- `PATCH /todos/:id`: Update a To-Do.
+- `DELETE /todos/:id`: Delete a To-Do.
