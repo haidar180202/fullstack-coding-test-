@@ -1,14 +1,15 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const users = []; // In-memory user store
+let users = [];
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 exports.register = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required.' });
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: 'Name, email, and password are required.' });
   }
 
   const existingUser = users.find(u => u.email === email);
@@ -17,7 +18,7 @@ exports.register = async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = { id: users.length + 1, email, password: hashedPassword };
+  const newUser = { id: users.length + 1, name, email, password: hashedPassword, profilePicture: '' };
   users.push(newUser);
 
   res.status(201).json({ message: 'User registered successfully.' });
@@ -50,18 +51,37 @@ exports.getProfile = (req, res) => {
   if (!user) {
     return res.status(404).json({ message: 'User not found.' });
   }
-  res.json({ id: user.id, email: user.email, profilePicture: user.profilePicture });
+  console.log('Sending profile data:', { id: user.id, name: user.name, email: user.email, profilePicture: user.profilePicture });
+  res.json({ id: user.id, name: user.name, email: user.email, profilePicture: user.profilePicture });
 };
 
-exports.updateProfile = (req, res) => {
-  const user = users.find(u => u.id === req.user.userId);
-  if (!user) {
+exports.updateProfile = async (req, res) => {
+  const userIndex = users.findIndex(u => u.id === req.user.userId);
+  if (userIndex === -1) {
     return res.status(404).json({ message: 'User not found.' });
   }
 
-  const { email, profilePicture } = req.body;
-  if (email) user.email = email;
-  if (profilePicture) user.profilePicture = profilePicture;
+  console.log('Received update profile request with data:', req.body);
+
+  const { name, email, profilePicture, password } = req.body;
+  if (name) users[userIndex].name = name;
+  if (email) users[userIndex].email = email;
+  if (profilePicture !== undefined) users[userIndex].profilePicture = profilePicture;
+  if (password) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    users[userIndex].password = hashedPassword;
+  }
 
   res.json({ message: 'Profile updated successfully.' });
+};
+
+exports.deleteProfile = (req, res) => {
+  const userIndex = users.findIndex(u => u.id === req.user.userId);
+  if (userIndex === -1) {
+    return res.status(404).json({ message: 'User not found.' });
+  }
+
+  users.splice(userIndex, 1);
+
+  res.json({ message: 'Profile deleted successfully.' });
 };

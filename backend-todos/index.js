@@ -12,8 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/auth', authRoutes);
-app.use('/todos', authMiddleware, todoRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/todos', authMiddleware, todoRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
