@@ -10,6 +10,7 @@
         <template v-else>
           <router-link to="/">My Profile</router-link>
           <router-link to="/random-profile">Random Profile</router-link>
+          <router-link to="/todos">Todos</router-link>
           <button @click="logout">Logout</button>
         </template>
       </div>

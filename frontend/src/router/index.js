@@ -3,6 +3,7 @@ import MyProfile from '../components/UserProfile.vue';
 import RandomProfile from '../views/RandomProfile.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
+import Todos from '../views/Todos.vue';
 
 const routes = [
   {
@@ -15,6 +16,12 @@ const routes = [
     path: '/random-profile',
     name: 'RandomProfile',
     component: RandomProfile,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/todos',
+    name: 'Todos',
+    component: Todos,
     meta: { requiresAuth: true },
   },
   {
