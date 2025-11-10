@@ -30,7 +30,8 @@ This single command will build the images for all services and start them in det
 
     -   **Vue.js Frontend:** [http://localhost:5173](http://localhost:5173)
     -   **Laravel Users API:** [http://localhost:8000/api/users](http://localhost:8000/api/users)
-    -   **Node.js Todos API:** [http://localhost:3000/todos](http://localhost:3000/todos)
+    -   **Node.js Todos API:** [http://localhost:3000/api/todos](http://localhost:3000/api/todos)
+    -   **Node.js Auth API:** [http://localhost:3000/api/auth/{others}](http://localhost:3000/api/auth/{others})
 
 ---
 
