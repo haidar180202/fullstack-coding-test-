@@ -31,23 +31,23 @@ RUN docker-php-ext-install gd
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy composer files
-COPY composer.json composer.lock ./
-
-# Install dependencies
-RUN composer install --no-scripts --no-autoloader
-
 # Copy existing application directory contents
 COPY . .
 
-# Run composer dump-autoload
-RUN composer dump-autoload --optimize
+# Install dependencies
+RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Copy existing application directory permissions
-COPY --chown=www-data:www-data . .
+# Copy .env file and generate key
+RUN cp .env.example .env
+RUN php artisan key:generate
 
-# Change current user to www
-USER www-data
+# Set permissions
+RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chmod -R 775 storage bootstrap/cache
+
+# Clear caches
+RUN php artisan config:clear
+RUN php artisan route:clear
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
