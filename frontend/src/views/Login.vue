@@ -24,6 +24,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import apiClient from '../api';
 
 const email = ref('');
 const password = ref('');
@@ -33,25 +34,16 @@ const router = useRouter();
 const handleLogin = async () => {
   error.value = '';
   try {
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: email.value, password: password.value }),
+    const response = await apiClient.post('/auth/login', {
+      email: email.value,
+      password: password.value,
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Login failed');
-    }
-
-    localStorage.setItem('token', data.token);
+    localStorage.setItem('token', response.data.token);
     router.push('/');
 
   } catch (err) {
-    error.value = err.message;
+    error.value = err.response?.data?.message || err.message || 'Login failed';
   }
 };
 </script>

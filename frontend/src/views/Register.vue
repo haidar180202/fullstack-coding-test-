@@ -29,6 +29,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import apiClient from '../api'; // Import the new api client
 
 const name = ref('');
 const email = ref('');
@@ -39,29 +40,21 @@ const router = useRouter();
 
 const handleRegister = async () => {
   error.value = '';
-  success.value = '';
   try {
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: name.value, email: email.value, password: password.value }),
+    const response = await apiClient.post('/auth/register', {
+      name: name.value,
+      email: email.value,
+      password: password.value,
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Registration failed');
-    }
-
-    success.value = 'Registration successful! You can now log in.';
-    setTimeout(() => {
+    if (response.status === 201) {
       router.push('/login');
-    }, 2000);
-
+    } else {
+      const data = response.data;
+      error.value = data.message || 'Registration failed';
+    }
   } catch (err) {
-    error.value = err.message;
+    error.value = err.response?.data?.message || 'An error occurred during registration.';
   }
 };
 </script>
