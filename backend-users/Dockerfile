@@ -37,6 +37,7 @@ COPY . .
 
 # Install dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
+RUN composer dump-autoload
 
 # Copy .env file and generate key
 RUN cp .env.example .env
