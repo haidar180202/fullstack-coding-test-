@@ -35,6 +35,15 @@ This single command will build the images for all services and start them in det
 
 ---
 
+### 📖 API Documentation
+
+The API documentation for the `backend-todos` service is generated using Swagger and can be accessed at the following URL:
+
+-   **Todos API & Auth Process (Swagger):** [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+-   **Users Random API (Swagger):** [http://localhost:8000/api/documentation](http://localhost:8000/api/documentation)
+
+---
+
 ### 📘 Instructions
 
 - You may use any boilerplate or framework CLI tools (e.g., `vue create`, `npx express-generator`, `laravel new`).
